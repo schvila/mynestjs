@@ -8,7 +8,7 @@ import {
   Param,
   Patch,
   Post,
-  Res,
+  Query,
 } from '@nestjs/common';
 
 @Controller('cofees')
@@ -21,7 +21,12 @@ export class CofeesController {
   findFlavours() {
     return 'Vsechny moje prichute.';
   }
-
+  //localhost:3000/cofees/report?limit=20&offset=5
+  @Get('report')
+  report(@Query() paginationQuery) {
+    const { limit, offset } = paginationQuery;
+    return `Report limit: ${limit} offset: ${offset}`;
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return `Nacte kavu #${id}.`;
@@ -33,7 +38,7 @@ export class CofeesController {
   }
   @Patch(':id')
   update(@Param('id') id: string, @Body() body) {
-    return `Update kavu #${id}.`;
+    return `Update kavu #${id}  body name: ${body.name}.`;
   }
   @Delete(':id')
   remove(@Param('id') id: string) {
