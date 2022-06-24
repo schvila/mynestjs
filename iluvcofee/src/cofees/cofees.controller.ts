@@ -10,12 +10,14 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { CofeesService } from './cofees.service';
 
 @Controller('cofees')
 export class CofeesController {
+  constructor(private readonly cofeeService: CofeesService) {}
   @Get()
   findAll() {
-    return 'Moje kavy.';
+    return this.cofeeService.findAll();
   }
   @Get('flavours')
   findFlavours() {
@@ -29,19 +31,19 @@ export class CofeesController {
   }
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return `Nacte kavu #${id}.`;
+    return this.cofeeService.findOne(id);
   }
   @Post()
   @HttpCode(HttpStatus.GONE)
   create(@Body() body) {
-    return body;
+    return this.cofeeService.create(body);
   }
   @Patch(':id')
   update(@Param('id') id: string, @Body() body) {
-    return `Update kavu #${id}  body name: ${body.name}.`;
+    return this.cofeeService.update(id, body);
   }
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return `Vymaz kavu #${id}.`;
+    return this.cofeeService.remove(id);
   }
 }
