@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { threadId } from 'worker_threads';
 import { Cofee } from './entities/cofee.entity';
 
@@ -16,7 +16,11 @@ export class CofeesService {
     return this.cofees;
   }
   findOne(id: string) {
-    return this.cofees.find((item) => item.id === +id);
+    const cofee = this.cofees.find((item) => item.id === +id);
+    if (!cofee) {
+      throw new HttpException(`Cofee# ${id} not found.`, HttpStatus.NOT_FOUND);
+    }
+    return cofee;
   }
   create(createCofeeDto: any) {
     this.cofees.push(createCofeeDto);
