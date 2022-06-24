@@ -1,5 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { CreateCofeeDto } from 'src/cofees/dto/create-cofee.dto';
 import { threadId } from 'worker_threads';
+import { UpdateCofeeDto } from './dto/update-cofee.dto';
 import { Cofee } from './entities/cofee.entity';
 
 @Injectable()
@@ -22,10 +24,18 @@ export class CofeesService {
     }
     return cofee;
   }
-  create(createCofeeDto: any) {
-    this.cofees.push(createCofeeDto);
+  create(createCofeeDto: CreateCofeeDto): Cofee {
+    const newId = this.cofees.length + 1;
+    const newCoofee: Cofee = {
+      id: newId,
+      name: createCofeeDto.name,
+      brand: createCofeeDto.brand,
+      flavors: createCofeeDto.flavors,
+    };
+    this.cofees.push(newCoofee);
+    return newCoofee;
   }
-  update(id: string, createCofeeDto: any) {
+  update(id: string, updateCofeeDto: UpdateCofeeDto) {
     const existingCofee = this.cofees.find((item) => item.id === +id);
     if (existingCofee) {
       // update entity

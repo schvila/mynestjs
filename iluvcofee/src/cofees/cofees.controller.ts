@@ -10,7 +10,9 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { CreateCofeeDto } from 'src/cofees/dto/create-cofee.dto';
 import { CofeesService } from './cofees.service';
+import { UpdateCofeeDto } from './dto/update-cofee.dto';
 
 @Controller('cofees')
 export class CofeesController {
@@ -35,12 +37,12 @@ export class CofeesController {
   }
   @Post()
   @HttpCode(HttpStatus.GONE)
-  create(@Body() body) {
-    return this.cofeeService.create(body);
+  create(@Body() createCofeeDto: CreateCofeeDto) {
+    return this.cofeeService.create(createCofeeDto);
   }
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body) {
-    return this.cofeeService.update(id, body);
+  update(@Param('id') id: string, @Body() updateCofeeDto: UpdateCofeeDto) {
+    return this.cofeeService.update(id, updateCofeeDto);
   }
   @Delete(':id')
   remove(@Param('id') id: string) {
